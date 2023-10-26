@@ -2,7 +2,7 @@
 export function getRandomPassage() {
     // Generate a random Bible passage here, for example:
     const books = [
-        ['title'= 'Genesis', ]'Genesis',
+        'Genesis',
     'Exodus',
     'Leviticus',
     'Numbers',
