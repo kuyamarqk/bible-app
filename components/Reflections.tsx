@@ -7,9 +7,10 @@ import React from 'react'
 export const Reflections = () => {
     const [reflection, setReflection] = useState('');
 
-    const handleReflectionChange = (event) => {
-        setReflection(event.target.value);
+    const handleReflectionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setReflection(event.target.value);
     };
+    
   return (
     <section className='container mx-auto p-4'>
     <header className="text-2xl font-bold mb-4">Reflections</header>

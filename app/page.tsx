@@ -5,13 +5,18 @@ import { getRandomPassage } from '@/utils/getRandomPassage';
 import { Reflections } from '@/components/Reflections';
 import Search from '@/components/SearchBar';
 
+interface SearchResult {
+  verse: string;
+  text: string;
+}
 export default function Home() {
   const [verse, setVerse] = useState('');
   const [book, setBook] = useState('');
   const [chapter, setChapter] = useState('');
   const [verseNumber, setVerseNumber] = useState('');
   const [showDetails, setShowDetails] = useState(false); // Add a state for showing/hiding details
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+
 
   const fetchRandomVerse = async () => {
     const randomPassage = getRandomPassage();
@@ -65,10 +70,10 @@ export default function Home() {
   };
 
   // Handler for updating the reflection state
-  const handleSearch = async (query) => {
+  const handleSearch = async (query: string) => {
     if (query) {
       // Simulated search, replace with your actual API call
-      const results = await searchBible(query);
+      const results: SearchResult[] = await searchBible(query);
       setSearchResults(results);
     }
   };
@@ -77,7 +82,7 @@ export default function Home() {
     setSearchResults([]);
   };
 
-  const searchBible = async (query) => {
+  const searchBible = async (query: string) => {
     // Simulated search, replace with your actual API or data source
     return [
       { verse: 'John 3:16', text: 'For God so loved the world...' },

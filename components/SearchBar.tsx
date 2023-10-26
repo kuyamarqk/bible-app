@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Search = ({ onSearch }) => {
+const Search = ({ onSearch }: { onSearch: Function }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = () => {
