@@ -58,7 +58,7 @@ export default function Home() {
   };
 
   // Helper function to parse the book, chapter, and verse from a passage
-  const parsePassage = (passage: any) => {
+  const parsePassage = (passage: string) => {
     const [parsedBook, rest] = passage.split('+', 2);
     const [parsedChapter, parsedVerse] = rest.split(':');
     return [parsedBook, parsedChapter, parsedVerse];
