@@ -37,11 +37,7 @@ const Page = () => {
       <section className="container mx-auto p-4">
         <SearchBar
           onSearch={handleSearch}
-          // Pass your sign-in, registration, and sign-out functions as props
-          // handleSignIn={handleSignIn}
-          // handleRegister={handleRegister}
-          // handleSignOut={handleSignOut}
-          // user={user} // Include user information if available
+          
         />
 </section>
         <section className="container mx-auto p-4">
