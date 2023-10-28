@@ -1,140 +1,72 @@
 "use client";
-import { useState } from 'react';
-import { getBibleVerse } from '@/utils/api';
-import { getRandomPassage } from '@/utils/getRandomPassage';
-import { Reflections } from '@/components/Reflections';
-import Search from '@/components/SearchBar';
+import React, { useState } from 'react';
+import SearchBar from '@/components/SearchBar';
+import DailyVerse from '@/components/DailyVerse'; // Import the DailyVerse component
+import BookList from '@/components/BookList';
+import { getBiblePassage } from '@/utils/getBiblePassage'; // Import the getBiblePassage function
+import SearchResult from '@/components/searchResult';
 
-interface SearchResult {
-  verse: string;
-  text: string;
-}
-export default function Home() {
-  const [verse, setVerse] = useState('');
-  const [book, setBook] = useState('');
-  const [chapter, setChapter] = useState('');
-  const [verseNumber, setVerseNumber] = useState('');
-  const [showDetails, setShowDetails] = useState(false); // Add a state for showing/hiding details
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+const Page = () => {
+  const [searchResult, setSearchResult] = useState(null);
 
+  // Define your functions for handling sign-in, registration, and sign-out here
+  // ...
 
-  const fetchRandomVerse = async () => {
-    const randomPassage = getRandomPassage();
-    const randomVerse = await getBibleVerse(randomPassage);
-    if (randomVerse) {
-      setVerse(randomVerse);
-      // Parse the book, chapter, and verse from the passage
-      const [parsedBook, parsedChapter, parsedVerse] = parsePassage(randomPassage);
-      setBook(parsedBook);
-      setChapter(parsedChapter);
-      setVerseNumber(parsedVerse);
-      setShowDetails(true); // Show details when verse is fetched
+  // Define a function to handle the search result
+  const handleSearch = async (searchQuery: string) => {
+    try {
+      const bibleId = "de4e12af7f28f599-02"; // Replace with the Bible ID you want to search within
+      const response = await getBiblePassage(bibleId, searchQuery);
+
+      if (response) {
+        // Update the search result state
+        setSearchResult(response);
+      } else {
+        // Handle the case where the search did not return valid data
+        setSearchResult(null);
+      }
+    } catch (error) {
+      // Handle any errors that occur during the API request
+      console.error('Error searching for Bible passage:', error);
+      setSearchResult(null);
     }
-  };
-
-  const copyVerse = () => {
-    if (verse) {
-      navigator.clipboard.writeText(verse).then(() => {
-        // Handle success, e.g., show a confirmation message
-        alert('Verse copied to clipboard!');
-      }).catch((error) => {
-        // Handle error, e.g., display an error message
-        console.error('Failed to copy verse: ', error);
-      });
-    }  
   }
-
-  const shareVerse = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Check out this Bible verse',
-        text: verse,
-        url: window.location.href,
-      }).then(() => {
-        // Handle successful sharing
-        alert('Verse shared successfully!');
-      }).catch((error) => {
-        // Handle sharing error
-        console.error('Failed to share verse: ', error);
-      });
-    } else {
-      alert('Web Share API is not supported in this browser.');
-    }
-  };
-
-  // Helper function to parse the book, chapter, and verse from a passage
-  const parsePassage = (passage: string) => {
-    const [parsedBook, rest] = passage.split('+', 2);
-    const [parsedChapter, parsedVerse] = rest.split(':');
-    return [parsedBook, parsedChapter, parsedVerse];
-  };
-
-  // Handler for updating the reflection state
-  const handleSearch = async (query: string) => {
-    if (query) {
-      // Simulated search, replace with your actual API call
-      const results: SearchResult[] = await searchBible(query);
-      setSearchResults(results);
-    }
-  };
-
-  const resetSearch = () => {
-    setSearchResults([]);
-  };
-
-  const searchBible = async (query: string) => {
-    // Simulated search, replace with your actual API or data source
-    return [
-      { verse: 'John 3:16', text: 'For God so loved the world...' },
-      { verse: 'Psalm 23:1', text: 'The Lord is my shepherd...' },
-      // Add more search results here
-    ];
-  };
 
   return (
     <div>
       <section className="container mx-auto p-4">
-      <Search onSearch={handleSearch} />
-      <div className="bg-white p-4 rounded shadow-md">
-        <h2 className="text-lg font-semibold mb-2">Verse of the Day</h2>
-        <p className="text-gray-800">{verse}</p>
-        {showDetails && (
-          <div className="text-gray-800 mt-4">
-            <p>
-              <span className="font-semibold">Book:</span> {book}
-            </p>
-            <p>
-              <span className="font-semibold">Chapter:</span> {chapter}
-            </p>
-            <p>
-              <span className="font-semibold">Verse:</span> {verseNumber}
-            </p>
+        <SearchBar
+          onSearch={handleSearch}
+          // Pass your sign-in, registration, and sign-out functions as props
+          // handleSignIn={handleSignIn}
+          // handleRegister={handleRegister}
+          // handleSignOut={handleSignOut}
+          // user={user} // Include user information if available
+        />
+</section>
+        <section className="container mx-auto p-4">
+          <div className='bg-white p-4 rounded shadow-md'>
+            <DailyVerse />
           </div>
-        )}
-        <button
-          className="m-2 mx-2 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          onClick={fetchRandomVerse}
-        >
-          Get Random Verse
-        </button>
-        <button
-          className="m-2 mx-2 bg-green-500 text-white py-2 px-4 rounded hover-bg-green-600"
-          onClick={copyVerse}
-        >
-          Copy Verse
-        </button>
-        <button
-          className="m-2 mx-2 bg-yellow-500 text-white py-2 px-4 rounded hover-bg-yellow-600"
-          onClick={shareVerse}
-        >
-          Share Verse
-        </button>
-      </div>
-      {/* Add your devotion content here */}
-    </section>
-          <Reflections/>
-    
+        </section>
+
+        {/* Conditionally display the new section with search results */}
+        {searchResult ? (
+          <section className="container mx-auto p-4">
+            <SearchResult searchResult={searchResult} />
+          </section>
+          
+        ) : null}
+
+        <section className="container mx-auto p-4">
+          <div className='bg-white p-4 rounded shadow-md'>
+            <BookList />
+          </div>
+        </section>
+
+      
     </div>
-    
   );
-}
+};
+
+export default Page;

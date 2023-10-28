@@ -7,7 +7,7 @@ const webpack = require('webpack');
 
 module.exports = {
   webpack: (config) => {
-    config.plugins.push(new webpack.EnvironmentPlugin(['ESV_API_KEY']));
+    config.plugins.push(new webpack.EnvironmentPlugin(['API_KEY']));
     return config;
   },
 };
