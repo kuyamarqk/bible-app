@@ -1,19 +1,7 @@
 import React, { useState } from 'react';
 import { getBiblePassage } from '@/utils/getBiblePassage'; // Import the getBiblePassage function
 
-const Search = ({
-  onSearch,
-  user,
-  handleSignIn,
-  handleRegister,
-  handleSignOut,
-}: {
-  onSearch: Function;
-  user: any;
-  handleSignIn: Function;
-  handleRegister: Function;
-  handleSignOut: Function;
-}) => {
+const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = async () => {

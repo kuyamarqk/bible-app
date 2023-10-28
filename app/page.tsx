@@ -35,11 +35,8 @@ const Page = () => {
   return (
     <div>
       <section className="container mx-auto p-4">
-        <SearchBar
-          onSearch={handleSearch}
-          
-        />
-</section>
+        <SearchBar/>
+      </section>
         <section className="container mx-auto p-4">
           <div className='bg-white p-4 rounded shadow-md'>
             <DailyVerse />
