@@ -2,9 +2,18 @@
 import React, { useState } from 'react';
 import SearchBar from '@/components/SearchBar';
 import DailyVerse from '@/components/DailyVerse'; // Import the DailyVerse component
-import BookList from '@/components/BookList';
 import { getBiblePassage } from '@/utils/getBiblePassage'; // Import the getBiblePassage function
 import SearchResult from '@/components/searchResult';
+import BookListComponent from '@/components/BookListComponent';
+
+interface Book {
+  abbreviation: string;
+  bibleId: string;
+  id: string;
+  name: string;
+  nameLong: string;
+  // Add other additional fields as needed
+}
 
 const Page = () => {
   const [searchResult, setSearchResult] = useState(null);
@@ -34,9 +43,9 @@ const Page = () => {
 
   return (
     <div>
-      <section className="container mx-auto p-4">
-        <SearchBar onSearch={handleSearch}/>
-      </section>
+      {/* <section className="container mx-auto p-4">
+        <SearchBar />
+      </section> */}
         <section className="container mx-auto p-4">
           <div className='bg-white p-4 rounded shadow-md'>
             <DailyVerse />
@@ -44,16 +53,16 @@ const Page = () => {
         </section>
 
         {/* Conditionally display the new section with search results */}
-        {searchResult ? (
+        {/* {searchResult ? (
           <section className="container mx-auto p-4">
             <SearchResult searchResult={searchResult} />
           </section>
           
-        ) : null}
+        ) : null} */}
 
         <section className="container mx-auto p-4">
           <div className='bg-white p-4 rounded shadow-md'>
-            <BookList />
+            <BookListComponent />
           </div>
         </section>
 
