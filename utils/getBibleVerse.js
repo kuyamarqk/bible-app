@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+function removeBracketsAndNumbers(inputString) {
+  return inputString.replace(/\[\d+\]/g, '');
+}   
+
 const API_URL = 'https://api.scripture.api.bible/';
 const apiKey = process.env.API_KEY;
+
 
 export const getBibleVerse = async (bibleId, verse) => {
   try {
@@ -18,13 +23,13 @@ export const getBibleVerse = async (bibleId, verse) => {
     if (response.status === 200) {
       const responseData = response.data.data;
 
-      return {
+   return {
         id: responseData.id,
         orgId: responseData.orgId,
         bibleId: responseData.bibleId,
         bookId: responseData.bookId,
         chapterId: responseData.chapterId,
-        content: responseData.content,
+        content: removeBracketsAndNumbers(responseData.content),
         reference: responseData.reference,
         verseCount: responseData.verseCount,
         copyright: responseData.copyright,
