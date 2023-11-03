@@ -13,7 +13,8 @@ const AdvancedSearch = () => {
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow-md">
+    <div className="container mx-auto p-4">
+        <div className="bg-white p-4 rounded shadow-md">
       <h2 className="text-2xl font-bold text-black mb-4">Advanced Search</h2>
 
       <div className="text-black text-l font-bold grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -55,22 +56,15 @@ const AdvancedSearch = () => {
           </select>
         </div>
 
-        <div>
-          <label htmlFor="offset" className="text-black">Offset:</label>
-          <input
-            type="number"
-            id="offset"
-            value={offset}
-            onChange={(e) => setOffset(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-        </div>
+        
       </div>
 
       <button onClick={handleAdvancedSearch} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4">
         Apply Filters
       </button>
     </div>
+    </div>
+    
   );
 };
 

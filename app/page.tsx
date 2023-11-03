@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import SearchBar from '@/components/SearchBar';
 import DailyVerse from '@/components/DailyVerse'; // Import the DailyVerse component
 import { getBiblePassage } from '@/utils/getBiblePassage'; // Import the getBiblePassage function
-import SearchResult from '@/components/searchResult';
 import BookListComponent from '@/components/BookListComponent';
 
 interface Book {
