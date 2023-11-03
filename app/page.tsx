@@ -43,9 +43,9 @@ const Page = () => {
 
   return (
     <div>
-      {/* <section className="container mx-auto p-4">
+      <section className="container mx-auto p-4">
         <SearchBar />
-      </section> */}
+      </section>
         <section className="container mx-auto p-4">
           <div className='bg-white p-4 rounded shadow-md'>
             <DailyVerse />

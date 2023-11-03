@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { getBibleVerse } from '@/utils/getBibleVerse';
 import { getRandomPassage } from '@/utils/getRandomPassage';
 import Modal from 'react-modal';
@@ -6,20 +6,21 @@ import Modal from 'react-modal';
 const DailyVerse = () => {
   const [verse, setVerse] = useState('');
   const [showVerse, setShowVerse] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Change initial state to false
   const [reference, setReference] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [ copySuccess, setCopySuccess] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
 
-const openModal = () => {
-  setModalIsOpen(true);
-}
+  const openModal = () => {
+    setModalIsOpen(true);
+  }
 
-const closeModal = () => {
-  setModalIsOpen(false);
-}
+  const closeModal = () => {
+    setModalIsOpen(false);
+  }
 
   const generateDailyVerse = async () => {
+    setLoading(true); // Set loading to true
     try {
       const passage = await getRandomPassage('de4e12af7f28f599-02');
       const dailyPassage = await getBibleVerse('de4e12af7f28f599-02', passage);
@@ -28,17 +29,13 @@ const closeModal = () => {
         setVerse(dailyPassage.content);
         setReference(dailyPassage.reference);
         setShowVerse(true);
-        setLoading(false);
       }
     } catch (error) {
       console.error('Error fetching Bible verse:', error);
-      setLoading(false);
+    } finally {
+      setLoading(false); // Set loading to false when done
     }
   };
-
-  useEffect(() => {
-    generateDailyVerse();
-  }, []);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -70,14 +67,14 @@ const closeModal = () => {
 
     console.log('Verse copied to clipboard');
     setCopySuccess(true);
+    openModal(); // Open the success modal
   };
 
   return (
     <div className="daily-verse-container bg-blue-100 text-blue-900 p-4 rounded shadow-md">
       <h2 className="text-lg font-semibold mb-2">Verse of the Day</h2>
-      {loading ? (
-        <p>Loading daily verse...</p>
-      ) : showVerse ? (
+      
+      {showVerse && (
         <>
           <p className="text-gray-600 text-lg"><span>{reference}</span> {verse}</p>
 
@@ -96,8 +93,9 @@ const closeModal = () => {
             </button>
           </div>
         </>
-      ) : (
-        <p>Unable to fetch daily verse.</p>
+      )}
+      {!showVerse && !loading && (
+        <p>Click the button to Generate the daily verse</p>
       )}
 
       <div className="daily-verse-actions mt-4">
