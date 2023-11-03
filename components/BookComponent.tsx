@@ -16,6 +16,20 @@ const BookComponent = () => {
   const [selectedBook, setSelectedBook] = useState<string | null>(null); // Track the selected book
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showBookList, setShowBookList] = useState(false);
+
+  const handleShowBookList = () => {
+    const delay = 2000;
+  
+    // Show loading while waiting for the delay
+    setLoading(true);
+  
+    // Add a delay before showing or hiding the list
+    setTimeout(() => {
+      setShowBookList(!showBookList); // Toggle the state
+      setLoading(false); // Hide loading after the delay
+    }, delay);
+  }
 
   const toggleBooks = (bookId: string) => {
     if (bookId === selectedBook) {
@@ -48,12 +62,14 @@ const BookComponent = () => {
     if (searchQuery.trim() === '') {
       // If the search query is empty, display all books
       setFilteredBooks(books);
+      setShowBookList(false);
     } else {
       // If there is a search query, filter the books based on the query
       const filtered = books.filter((book) =>
         book.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredBooks(filtered);
+      setShowBookList(true);
     }
   }, [searchQuery, books]);
 
@@ -70,21 +86,37 @@ const BookComponent = () => {
         />
       </div>
       <ul className="mt-4">
-        {loading ? (
-          <p className="text-black font-xl font-black">Books are Loading...</p>
-        ) : (
-          filteredBooks.map((book: Book) => (
-            <div key={book.id} className={`text-black border-b py-2 cursor-pointer ${selectedBook === book.id ? 'selected' : ''}`}>
-              <p 
-              onClick={() => toggleBooks(book.id)} 
-              className='text-xl font-bold'
-              >
-                {book.name} - <span className='text-lg font-normal'>{book.nameLong}</span>
-            </p>
-              {selectedBook === book.id && <ChapterComponent bookId={selectedBook} />}
-            </div>
-          ))
-        )}
+      <button
+  onClick={handleShowBookList}
+  className={`text-blue-500 underline cursor-pointer transition-opacity duration-500 hover:opacity-75 `}
+>
+           {showBookList ? 'Hide List' : 'View List'}
+        </button>
+
+        {showBookList && (
+        <div
+          className={`transition-opacity duration-500 ${
+            loading ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          {loading ? (
+            <p className="text-black font-xl font-black">Books are Loading...</p>
+          ) : (
+            filteredBooks.map((book: Book) => (
+              <div key={book.id} className={`text-black border-b py-2 cursor-pointer ${selectedBook === book.id ? 'selected' : ''}`}>
+                <p
+                  onClick={() => toggleBooks(book.id)}
+                  className='text-xl font-bold'
+                >
+                  {book.name} - <span className='text-lg font-normal'>{book.nameLong}</span>
+                </p>
+                {selectedBook === book.id && <ChapterComponent bookId={selectedBook} />}
+              </div>
+            ))
+          )}
+  </div>
+)}
+        
       </ul>
     </div>
   );

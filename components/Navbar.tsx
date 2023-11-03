@@ -6,8 +6,8 @@ import Link from 'next/link';
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
 
-    const closeMobileMenu = () => {
-        setToggle(false);
+    const toggleMenu = () => {
+        setToggle(!toggle);
       };
   return (
     <nav className="bg-blue-500 p-4">
@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="md:hidden">
           <button
             className="text-white p-2 focus:outline-none"
-            onClick={() => setToggle(!toggle)}
+            onClick={toggleMenu}
           >
             Menu
           </button>
@@ -37,11 +37,11 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {toggle && (
-          <ul className="md:hidden space-y-4 absolute top-16 right-4 bg-blue-700 text-white p-4 ">
+          <ul className={`md:hidden space-y-4 absolute top-16 right-4 bg-blue-500 text-white p-4 ${toggle ? 'max-h-[300px]' : 'max-h-0'} transition-max-h duration-300 ease-in-out overflow-hidden`}>
             <li>
               <Link 
                 href="/" 
-                onClick={closeMobileMenu}
+                
                 passHref 
                 
                 >
@@ -52,7 +52,7 @@ const Navbar = () => {
               <Link 
                 href="/advanced-search" 
                 passHref
-                onClick={closeMobileMenu}
+                
                 >
                 Advance Search
               </Link>

@@ -3,6 +3,7 @@ import { getBibleVerse } from '@/utils/getBibleVerse';
 import { getRandomPassage } from '@/utils/getRandomPassage';
 import Modal from 'react-modal';
 
+
 const DailyVerse = () => {
   const [verse, setVerse] = useState('');
   const [showVerse, setShowVerse] = useState(false);
@@ -10,6 +11,8 @@ const DailyVerse = () => {
   const [reference, setReference] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [copySuccess, setCopySuccess] = useState(false);
+
+
 
   const openModal = () => {
     setModalIsOpen(true);
