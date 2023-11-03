@@ -56,9 +56,9 @@ const SearchBar = () => {
   
 
   return (
-    <div className="bg-white p-4 rounded shadow-md ">
-      <div className="flex items-center space-x-4">
-        <div className="w-1/2">
+    <div className="bg-white p-4 rounded shadow-md mb-4">
+      <div className="flex items-center space-x-4 w-full">
+        <div >
           <input
             type="text"
             placeholder="Search for a passage"
@@ -70,7 +70,7 @@ const SearchBar = () => {
         </div>
         <button
           onClick={handleSearch}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover-bg-blue-600"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         >
           Search
         </button>
