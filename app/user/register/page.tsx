@@ -22,15 +22,19 @@ const Register = () => {
         }));
     };
 
-    const handleRegistration = async () => {
+    const handleRegistration = async (e: any) => {
+        e.preventDefault();
         try {
             setError('');
-            const response = await axios.post('/app/api/register', formData, {
+
+            const response = await axios.post('/user', formData, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            });
 
+            });
+            console.log(response);
             if (response.status === 200) {
                 // Registration successful, you can display a success message or redirect the user
                 setSuccessMessage('Registration successful. You can now log in.');

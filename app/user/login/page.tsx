@@ -23,7 +23,7 @@ const Login = () => {
     const handleLogin = async () => {
         try {
             setError('');
-            const response = await axios.post('/api/user/login', formData, {
+            const response = await axios.post('/user', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
