@@ -1,94 +1,62 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
+import bcrypt from 'bcrypt';
+import { stringify } from 'querystring';
 
 export async function POST(request: Request) {
   try {
-   
-    console.log('Request received: ', request);
-
     // Parse the JSON data from the request
     const data = await request.json();
     const { email, password, name, image } = data;
-    console.log("email, password, name, image", email, password, name, image);
+
+    // Check if the email already exists in the database
+    const existingUser = await sql`
+      SELECT * FROM "User" WHERE email = ${email}
+    `;
+
+    if (existingUser.rowCount > 0) {
+      console.error('User with the same email already exists'+ JSON,stringify(data.error));
+      return NextResponse.json(
+        { error: 'User with the same email already exists' },
+        { status: 400 }
+      );
+    }
+
+    // Validate password: At least 8 characters, alphanumeric
+    if (password.length < 8 || !/^(?=.*[A-Za-z])(?=.*\d)/.test(password)) {
+      console.error('Password should be at least 8 characters and alphanumeric');
+      return NextResponse.json(
+        { error: 'Password should be at least 8 characters and alphanumeric' },
+        { status: 400 }
+      );
+    }
+
+    // Validate fullname (name): Not empty
+    if (!name || name.trim() === '') {
+      console.error('Fullname cannot be empty');
+      return NextResponse.json(
+        { error: 'Fullname cannot be empty' },
+        { status: 400 }
+      );
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // If the email doesn't exist and password and fullname are valid, proceed with registration
     const createdAt = new Date().toISOString();
-    // Set updated_at to null
     const updatedAt = null;
 
     const result = await sql`
-      INSERT INTO "User" (email, password, name, image )
-      VALUES (${email}, ${password}, ${name}, ${image})
+      INSERT INTO "User" (email, password, name, image, created_at, updated_at)
+      VALUES (${email}, ${hashedPassword}, ${name}, ${image}, ${createdAt}, ${updatedAt})
     `;
-    console.log("result: " + result);
-    const responseData = { message: 'Registration successful' };
-    return NextResponse.json(responseData, { status: 200 });
-  } catch (error: any) {
+
+    console.log('User registered:', data);
+
+    return NextResponse.json({ message: 'Registration successful' }, { status: 200 });
+  } catch (error) {
     console.error('Error in POST:', error);
-
-    if (error.message.includes('duplicate key value')) {
-      // If a user with the same email already exists, return a 400 Bad Request status
-      return NextResponse.json({ error: 'User with the same email already exists' }, { status: 400 });
-    }
-
-    // For other errors, return a 500 Internal Server Error status
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-  }
-}
-
-export async function GET(request: Request) {
-    try {
-      // Function to create the "Users" table
-      await sql`CREATE TABLE IF NOT EXISTS "User" (
-          email varchar(255),
-          password varchar(255),
-          fullName varchar(255),
-          image varchar(255)
-        );`
-  
-      const result = await sql`SELECT * FROM "User"`;
-  
-      return NextResponse.json({ result }, { status: 200 });
-    } catch (error) {
-      console.error('Error in GET:', error);
-      return NextResponse.json({ error }, { status: 500 });
-    }
-  }
-  
-
-export async function PUT(request: Request) {
-  try {
-    const data = await request.json();
-    const { email, password, fullName, image } = data;
-
-    const result = await sql`
-      UPDATE User
-      SET password = ${password}, fullName = ${fullName}, image = ${image}
-      WHERE email = ${email}
-    `;
-
-    console.log('User updated:', data);
-
-    return NextResponse.json({ result }, { status: 200 });
-  } catch (error) {
-    console.error('Error in PUT:', error);
-    return NextResponse.json({ error }, { status: 500 });
-  }
-}
-
-export async function DELETE(request: Request) {
-  try {
-    const data = await request.json();
-    const { email } = data;
-
-    const result = await sql`
-      DELETE FROM User
-      WHERE email = ${email}
-    `;
-
-    console.log('User deleted:', email);
-
-    return NextResponse.json({ result }, { status: 200 });
-  } catch (error) {
-    console.error('Error in DELETE:', error);
-    return NextResponse.json({ error }, { status: 500 });
   }
 }
