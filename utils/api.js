@@ -1,37 +1,25 @@
-// utils/api.js
 import axios from 'axios';
 
-const apiKey = process.env.ESV_API_KEY;
-const ESV_API_URL = 'https://api.esv.org/v3/passage/text/';
+const API_URL = 'https://api.scripture.api.bible/';
+const apiKey = process.env.API_KEY;
 
-export const getBibleVerse = async (passage) => {
-    try {
-      const response = await axios.get(ESV_API_URL, {
-        params: {
-          q: passage,
-          'include-footnotes': false,
-          'include-verse-numbers': false,
-          'include-headings': true,
-          'include-subheadings': false,
-          'include-surrounding-chapters': false,
-          'include-verse-permalink': false,
-          'include-passage-references': true,
-          'content-type': 'json',
-          'version': 'KJV',
-        },
-        headers: {
-          Authorization: `Token ${apiKey}`,
-        },
-      });
-  
-      if (response.status === 200) {
-        return response.data.passages[0];
-      }
-    } catch (error) {
-      console.error('Error fetching Bible verse:', error);
+export const getBiblePassage = async (bibleId, passage) => {
+  try {
+    const response = await axios.get(`${API_URL}v1/bibles/${bibleId}/search?query=${passage}`, {
+      headers: {
+        'api-key': apiKey,
+        'Authorization': `Token ${apiKey}`, // Include the authorization header
+      },
+    });
+
+    if (response.status === 200) {
+      // Check the structure of the response data and adjust this line accordingly
+      // console.log(response.data);
+      return response.data; // Or whatever structure your API response has
     }
-  
-    return null;
-  };
+  } catch (error) {
+    console.error('Error fetching Bible passage:', error);
+  }
 
-
+  return null;
+};
