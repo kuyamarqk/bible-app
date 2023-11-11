@@ -2,14 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
+
+type PageQuery = {
+  userId: string;
+  // add other query parameters if needed
+};
 
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
-  const userId = router.query?.userId as string;
+  // const userId = router.query as PageQuery;
 
   const toggleMenu = () => {
     setToggle(!toggle);
@@ -28,11 +33,11 @@ const Navbar = () => {
           <li>
             <Link href="/advanced-search" className="text-white">Advance Search</Link>
           </li>
-          {userId ? null : (
-            <li>
-              <Link href="/user/login" className="text-white">Account</Link>
-            </li>
-          )}
+          {/* {userId ? null : ( */}
+          <li>
+            <Link href="/user/login" className="text-white">Account</Link>
+          </li>
+          {/* )} */}
         </ul>
 
         {/* Mobile Menu Toggle */}
@@ -65,11 +70,11 @@ const Navbar = () => {
               </Link>
 
             </li>
-            {userId ? null : (
-              <li>
-                <Link href="/user/login" >Account</Link>
-              </li>
-            )}
+            {/* {userId ? null : ( */}
+            <li>
+              <Link href="/user/login" >Account</Link>
+            </li>
+            {/* )} */}
           </ul>
         )}
       </div>

@@ -1,7 +1,7 @@
 // pages/user/[userId]/dashboard.tsx
 "use client";
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import BreadcrumbHeader from '@/components/BreadcrumbHeaderComponent';
 
 type PageQuery = {
@@ -10,14 +10,14 @@ type PageQuery = {
 };
 
 const Dashboard: React.FC = () => {
-    const router = useRouter();
-    const userId = router.query as PageQuery;
-    console.log(userId);
+    // const router = useRouter();
+    // const userId = router.query as PageQuery;
+    // console.log(userId);
 
     return (
 
         <div className="container mx-auto">
-            <BreadcrumbHeader breadcrumbText={`Dashboard for User ${userId}`} />
+            <BreadcrumbHeader breadcrumbText={`Dashboard for User `} />
             {/* Your Dashboard Content Goes Here */}
         </div>
 
