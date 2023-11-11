@@ -42,7 +42,7 @@ const useForm = () => {
             }
             setSuccessMessage('');
 
-            const response = await axios.post('/user', formData, {
+            const response = await axios.post('/api/register', formData, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

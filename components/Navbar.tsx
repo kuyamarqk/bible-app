@@ -2,9 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const router = useRouter();
+
+  const userId = router.query?.userId as string;
 
   const toggleMenu = () => {
     setToggle(!toggle);
@@ -23,9 +28,11 @@ const Navbar = () => {
           <li>
             <Link href="/advanced-search" className="text-white">Advance Search</Link>
           </li>
-          <li>
-            <Link href="/user/login" className="text-white">Account</Link>
-          </li>
+          {userId ? null : (
+            <li>
+              <Link href="/user/login" className="text-white">Account</Link>
+            </li>
+          )}
         </ul>
 
         {/* Mobile Menu Toggle */}
@@ -58,9 +65,11 @@ const Navbar = () => {
               </Link>
 
             </li>
-            <li>
-              <Link href="/user/login" >Account</Link>
-            </li>
+            {userId ? null : (
+              <li>
+                <Link href="/user/login" >Account</Link>
+              </li>
+            )}
           </ul>
         )}
       </div>

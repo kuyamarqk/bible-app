@@ -48,8 +48,8 @@ export async function POST(request: Request) {
     const updatedAt = null;
 
     const result = await sql`
-      INSERT INTO "User" (email, password, name, image, created_at, updated_at)
-      VALUES (${email}, ${hashedPassword}, ${name}, ${image}, ${createdAt}, ${updatedAt})
+      INSERT INTO "User" (email, password, name, image)
+      VALUES (${email}, ${hashedPassword}, ${name}, ${image})
     `;
 
     console.log('User registered:', data);
