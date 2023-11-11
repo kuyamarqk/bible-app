@@ -2,8 +2,9 @@
 "use client";
 import React from 'react';
 import useForm from '@/utils/registerForm'
-import ErrorMessage from '@/utils/ErrorMessage';
+
 import Link from 'next/link';
+import ErrorMessage from '@/utils/errorMessage';
 
 const RegistrationForm = () => {
     const { formData, handleInputChange, handleSubmit, error, successMessage } = useForm();
