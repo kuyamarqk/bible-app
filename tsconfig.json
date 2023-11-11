@@ -34,7 +34,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "utils/registerForm.js"
+    "utils/registerForm.js",
+    "utils/ErrorMessage.js"
   ],
   "exclude": [
     "node_modules"

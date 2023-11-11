@@ -4,7 +4,7 @@ import React from 'react';
 import useForm from '@/utils/loginForm'; // You need to create a loginForm utility function
 
 import Link from 'next/link';
-import ErrorMessage from '@/utils/ErrorMessage';
+// import ErrorMessage from '@/utils/ErrorMessage';
 
 
 const LoginForm = () => {
@@ -44,7 +44,7 @@ const LoginForm = () => {
                         Login
                     </button>
 
-                    <ErrorMessage error={error} successMessage={successMessage} />
+                    {/* <ErrorMessage error={error} successMessage={successMessage} /> */}
 
                     <Link
                         href="/user/register"

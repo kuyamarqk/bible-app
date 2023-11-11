@@ -3,7 +3,7 @@
 import React from 'react';
 import useForm from '@/utils/registerForm'
 import Link from 'next/link';
-import ErrorMessage from '@/utils/ErrorMessage';
+// import ErrorMessage from '@/utils/ErrorMessage';
 
 const RegistrationForm = () => {
     const { formData, handleInputChange, handleSubmit, error, successMessage } = useForm();
@@ -48,7 +48,7 @@ const RegistrationForm = () => {
                     >
                         Register
                     </button>
-                    <ErrorMessage error={error} successMessage={successMessage} />
+                    {/* <ErrorMessage error={error} successMessage={successMessage} /> */}
                     <Link
                         href="/user/login"
                         className="w-full text-center bg-blue-500 hover:bg-blue-600 text-blue-900 hover:text-white py-2 px-4 rounded opacity-50 hover:opacity-100"
