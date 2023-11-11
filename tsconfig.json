@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "utils/useForm.js"
+    "utils/registerForm.js"
   ],
   "exclude": [
     "node_modules"

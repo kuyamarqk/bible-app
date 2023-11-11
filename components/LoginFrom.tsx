@@ -1,22 +1,23 @@
-// RegistrationForm.js
+// LoginForm.js
 "use client";
 import React from 'react';
-import useForm from '@/utils/registerForm'
+import useForm from '@/utils/loginForm'; // You need to create a loginForm utility function
 import ErrorMessage from '@/utils/ErrorMessage';
 import Link from 'next/link';
 
-const RegistrationForm = () => {
+
+const LoginForm = () => {
     const { formData, handleInputChange, handleSubmit, error, successMessage } = useForm();
 
     return (
         <div className="container mx-auto p-4 flex flex-wrap bg-white rounded mt-4 text-black">
             <div className="w-full md:w-1/2 p-4">
                 <p className="text-xl text-center m-auto text-black font-bold">
-                    Register to Add your favorite daily verse
+                    Login to your account
                 </p>
             </div>
-            <div className="w-full lg:w-1/4 md:w-1/2 p-4">
-                <div className="flex flex-col items-center md:items-start">
+            <div className="w-full md:w-1/2 p-4 flex">
+                <div className="flex flex-col items-center md:items-start w-full">
                     <input
                         type="email"
                         name="email"
@@ -34,26 +35,21 @@ const RegistrationForm = () => {
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded mb-2"
                     />
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Full Name"
-                        className="w-full p-2 border rounded mb-2"
-                    />
+
                     <button
                         onClick={handleSubmit}
                         className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mb-2"
                     >
-                        Register
+                        Login
                     </button>
+
                     <ErrorMessage error={error} successMessage={successMessage} />
+
                     <Link
-                        href="/user/login"
+                        href="/user/register"
                         className="w-full text-center bg-blue-500 hover:bg-blue-600 text-blue-900 hover:text-white py-2 px-4 rounded opacity-50 hover:opacity-100"
                     >
-                        Login
+                        Register
                     </Link>
                 </div>
             </div>
@@ -61,4 +57,4 @@ const RegistrationForm = () => {
     );
 };
 
-export default RegistrationForm;
+export default LoginForm;
